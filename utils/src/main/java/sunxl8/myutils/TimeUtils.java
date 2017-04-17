@@ -224,6 +224,23 @@ public class TimeUtils {
     }
 
     /**
+     * 将时间字符串转为时间戳
+     * <p>time格式为pattern</p>
+     *
+     * @param time    时间字符串
+     * @param sdf 时间格式
+     * @return 毫秒时间戳
+     */
+    public static long string2Millis(String time, SimpleDateFormat sdf) {
+        try {
+            return sdf.parse(time).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
      * 将时间字符串转为Date类型
      * <p>time格式为yyyy-MM-dd HH:mm:ss</p>
      *
@@ -244,6 +261,18 @@ public class TimeUtils {
      */
     public static Date string2Date(String time, String pattern) {
         return new Date(string2Millis(time, pattern));
+    }
+
+    /**
+     * 将时间字符串转为Date类型
+     * <p>time格式为pattern</p>
+     *
+     * @param time    时间字符串
+     * @param sdf 时间格式
+     * @return Date类型
+     */
+    public static Date string2Date(String time, SimpleDateFormat sdf) {
+        return new Date(string2Millis(time, sdf));
     }
 
     /**
