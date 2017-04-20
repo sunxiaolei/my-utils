@@ -155,9 +155,9 @@ public class StatusBarUtils {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void processM() {
-        if (current < Build.VERSION_CODES.M) {
+        if (current < Build.VERSION_CODES.LOLLIPOP) {
             return;
         }
         int flag = window.getDecorView().getSystemUiVisibility();
