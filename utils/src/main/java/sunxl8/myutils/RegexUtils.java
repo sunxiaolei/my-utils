@@ -12,11 +12,13 @@ import static sunxl8.myutils.ConstUtils.REGEX_ID_CARD18;
 import static sunxl8.myutils.ConstUtils.REGEX_IP;
 import static sunxl8.myutils.ConstUtils.REGEX_MOBILE_EXACT;
 import static sunxl8.myutils.ConstUtils.REGEX_MOBILE_SIMPLE;
+import static sunxl8.myutils.ConstUtils.REGEX_NUM;
 import static sunxl8.myutils.ConstUtils.REGEX_TEL;
 import static sunxl8.myutils.ConstUtils.REGEX_TENCENT_NUM;
 import static sunxl8.myutils.ConstUtils.REGEX_URL;
 import static sunxl8.myutils.ConstUtils.REGEX_USERNAME;
 import static sunxl8.myutils.ConstUtils.REGEX_ZH;
+
 
 /**
  * 正则相关工具类
@@ -55,6 +57,16 @@ public class RegexUtils {
      */
     public static boolean isTel(CharSequence input) {
         return isMatch(REGEX_TEL, input);
+    }
+
+    /**
+     * 验证数字
+     *
+     * @param input 待验证文本
+     * @return {@code true}: 匹配<br>{@code false}: 不匹配
+     */
+    public static boolean isNum(CharSequence input) {
+        return isMatch(REGEX_NUM, input);
     }
 
     /**

@@ -2,30 +2,23 @@ package sunxl8.myutils;
 
 import android.content.Context;
 
-/**
- * Utils初始化
+/*
+ * @author sun
+ * @emil sunxl8@centaline.com.cn
+ * create at 18-7-26
+ * description:
  */
 public class Utils {
 
     private static Context context;
 
-    /**
-     * 初始化工具类
-     *
-     * @param context 上下文
-     */
     public static void init(Context context) {
         Utils.context = context.getApplicationContext();
+        KvUtils.init(context);
     }
 
-    /**
-     * 获取ApplicationContext
-     *
-     * @return ApplicationContext
-     */
     public static Context getContext() {
         if (context != null) return context;
-        throw new NullPointerException("u should init first");
+        throw new NullPointerException("Should init Utils first");
     }
-
 }

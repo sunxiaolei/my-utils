@@ -4,6 +4,9 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
 
 /**
  * 尺寸相关工具类
@@ -159,5 +162,54 @@ public class SizeUtils {
      */
     public static int getMeasuredHeight(View view) {
         return measureView(view)[1];
+    }
+
+    /**
+     * 获取ListView高度
+     *
+     * @param listView
+     * @return
+     */
+    public static int getListViewHeight(ListView listView) {
+        int totalHeight = 0;
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return totalHeight;
+        }
+
+        int height = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+            listItem.measure(desiredWidth, 0);
+            height += (listItem.getMeasuredHeight());
+        }
+
+        totalHeight = height + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        return totalHeight;
+    }
+
+    /**
+     * 根据item调整高度
+     *
+     * @param listView
+     */
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }

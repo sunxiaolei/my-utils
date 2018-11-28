@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
 
 import java.io.ByteArrayInputStream;
@@ -571,6 +572,23 @@ public class ConvertUtils {
         }
         view.draw(canvas);
         return ret;
+    }
+
+    /**
+     * 字符串转int
+     *
+     * @param str
+     * @return
+     */
+    public static int str2int(String str) {
+        if (TextUtils.isEmpty(str)) return 0;
+        int res;
+        try {
+            res = Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            res = 0;
+        }
+        return res;
     }
 
 }

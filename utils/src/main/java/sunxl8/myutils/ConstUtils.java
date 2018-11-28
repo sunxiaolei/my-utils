@@ -75,6 +75,10 @@ public class ConstUtils {
      */
     public static final String REGEX_TEL = "^0\\d{2,3}[- ]?\\d{7,8}";
     /**
+     * 正则: 数字
+     */
+    public static final String REGEX_NUM = "[0-9]+";
+    /**
      * 正则：身份证号码15位
      */
     public static final String REGEX_ID_CARD15 = "^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$";

@@ -227,8 +227,8 @@ public class TimeUtils {
      * 将时间字符串转为时间戳
      * <p>time格式为pattern</p>
      *
-     * @param time    时间字符串
-     * @param sdf 时间格式
+     * @param time 时间字符串
+     * @param sdf  时间格式
      * @return 毫秒时间戳
      */
     public static long string2Millis(String time, SimpleDateFormat sdf) {
@@ -267,8 +267,8 @@ public class TimeUtils {
      * 将时间字符串转为Date类型
      * <p>time格式为pattern</p>
      *
-     * @param time    时间字符串
-     * @param sdf 时间格式
+     * @param time 时间字符串
+     * @param sdf  时间格式
      * @return Date类型
      */
     public static Date string2Date(String time, SimpleDateFormat sdf) {
@@ -728,7 +728,7 @@ public class TimeUtils {
     /**
      * 获取友好型与当前时间的差
      *
-     * @param millis 毫秒时间戳
+     * @param date 毫秒时间戳
      * @return 友好型与当前时间的差
      * <ul>
      * <li>如果小于1秒钟内，显示刚刚</li>
@@ -741,27 +741,39 @@ public class TimeUtils {
      * </ul>
      */
     @SuppressLint("DefaultLocale")
-    public static String getFriendlyTimeSpanByNow(long millis) {
+    public static String getFriendlyTimeSpanByNow(long date) {
+        String timeString;
         long now = System.currentTimeMillis();
-        long span = now - millis;
-        if (span < 0)
-            return String.format("%tc", millis);// U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
-        if (span < 1000) {
-            return "刚刚";
-        } else if (span < ConstUtils.MIN) {
-            return String.format("%d秒前", span / ConstUtils.SEC);
-        } else if (span < ConstUtils.HOUR) {
-            return String.format("%d分钟前", span / ConstUtils.MIN);
+        long delta = now - date;
+        if (delta < 0) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(date);
+            timeString = calendar.get(Calendar.YEAR) + "-"
+                    + (calendar.get(Calendar.MONTH) + 1) + "-"
+                    + calendar.get(Calendar.DAY_OF_MONTH);
+            return timeString;
         }
-        // 获取当天00:00
-        long wee = (now / ConstUtils.DAY) * ConstUtils.DAY - 8 * ConstUtils.HOUR;
-        if (millis >= wee) {
-            return String.format("今天%tR", millis);
-        } else if (millis >= wee - ConstUtils.DAY) {
-            return String.format("昨天%tR", millis);
-        } else {
-            return String.format("%tF", millis);
-        }
+        if (delta > ConstUtils.DAY * 7) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(date);
+            timeString = calendar.get(Calendar.YEAR) + "-"
+                    + (calendar.get(Calendar.MONTH) + 1) + "-"
+                    + calendar.get(Calendar.DAY_OF_MONTH);
+        } else if (delta > ConstUtils.DAY) {
+            int deltaDay = (int) Math.ceil(delta / ConstUtils.DAY);
+            timeString = deltaDay + "天前";
+        } else if (delta > ConstUtils.HOUR) {
+            int deltaDay = (int) Math.ceil(delta / ConstUtils.HOUR);
+            timeString = deltaDay + "小时前";
+        } else if (delta > ConstUtils.MIN) {
+            int deltaDay = (int) Math.ceil(delta / ConstUtils.MIN);
+            timeString = deltaDay + "分钟前";
+        } else if (delta > ConstUtils.SEC) {
+            int deltaDay = (int) Math.ceil(delta / ConstUtils.SEC);
+            timeString = deltaDay + "秒前";
+        } else
+            timeString = "1秒前";
+        return timeString;
     }
 
     /**
